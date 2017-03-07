@@ -83,6 +83,7 @@ pop3c_client_create_from_set(struct mail_storage *storage,
 	else
 		client_set.ssl_mode = POP3C_CLIENT_SSL_MODE_NONE;
 	client_set.ssl_crypto_device = storage->set->ssl_crypto_device;
+        client_set.sasl_external = set->pop3c_sasl_external;
 	return pop3c_client_init(&client_set);
 }
 

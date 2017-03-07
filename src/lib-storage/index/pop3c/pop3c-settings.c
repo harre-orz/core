@@ -21,6 +21,7 @@ static const struct setting_define pop3c_setting_defines[] = {
 
 	DEF(SET_ENUM, pop3c_ssl),
 	DEF(SET_BOOL, pop3c_ssl_verify),
+	DEF(SET_BOOL, pop3c_sasl_external),
 
 	DEF(SET_STR, pop3c_rawlog_dir),
 	DEF(SET_BOOL, pop3c_quick_received_date),
@@ -40,6 +41,7 @@ static const struct pop3c_settings pop3c_default_settings = {
 
 	.pop3c_ssl = "no:pop3s:starttls",
 	.pop3c_ssl_verify = TRUE,
+        .pop3c_sasl_external = FALSE,
 
 	.pop3c_rawlog_dir = "",
 	.pop3c_quick_received_date = FALSE,

@@ -132,6 +132,7 @@ pop3c_client_init(const struct pop3c_client_settings *set)
 				set->host, set->port, error);
 		}
 	}
+        client->set.sasl_external = set->sasl_external;
 	return client;
 }
 

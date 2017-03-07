@@ -20,6 +20,7 @@ struct pop3c_settings {
 
 	const char *pop3c_ssl;
 	bool pop3c_ssl_verify;
+        bool pop3c_sasl_external;
 
 	const char *pop3c_rawlog_dir;
 	bool pop3c_quick_received_date;

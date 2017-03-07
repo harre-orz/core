@@ -37,6 +37,7 @@ struct pop3c_client_settings {
 	enum pop3c_features parsed_features;
 	const char *ssl_ca_dir, *ssl_ca_file;
 	bool ssl_verify;
+        bool sasl_external;
 
 	const char *rawlog_dir;
 	const char *ssl_crypto_device;
