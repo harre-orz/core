@@ -348,9 +348,14 @@ static void pop3c_client_starttls(struct pop3c_client *client)
 static void pop3c_client_authenticate1(struct pop3c_client *client)
 {
 	const struct pop3c_client_settings *set = &client->set;
+	size_t len;
+	string_t *enc;
 
 	if (client->set.debug) {
-		if (set->master_user == NULL) {
+	  if (set->sasl_external) {
+	    i_debug("pop3c(%s): Authenticating as '%s' (wuth SASL EXTERNAL)",
+		    client->set.host, set->username);
+	  } else if (set->master_user == NULL) {
 			i_debug("pop3c(%s): Authenticating as '%s' (with USER+PASS)",
 				client->set.host, set->username);
 		} else {
@@ -360,7 +365,15 @@ static void pop3c_client_authenticate1(struct pop3c_client *client)
 		}
 	}
 
-	if (set->master_user == NULL) {
+	if (set->sasl_external) {
+	  len = strlen(set->username);
+	  enc = t_str_new(len * 3 + 1);
+	  base64_encode(set->username, len, enc);
+	  o_stream_nsend_str(client->output,
+			     t_strdup_printf("AUTH EXTERNAL %s\r\n", str_c(enc)));
+	  client->state = POP3C_CLIENT_STATE_PASS;
+	  client->auth_mech = "SASL EXTERNAL";
+        } else if (set->master_user == NULL) {
 		o_stream_nsend_str(client->output,
 			t_strdup_printf("USER %s\r\n", set->username));
 		client->state = POP3C_CLIENT_STATE_USER;
